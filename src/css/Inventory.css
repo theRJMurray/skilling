@@ -1,0 +1,9 @@
+.inventoryContainer {
+    width: 400px;
+    height: 600px;
+    background: #E0DFD5;
+    border: 3px solid #313638;
+    display: flex;
+    margin: 25px;
+    font-family: 'Montserrat', sans-serif;
+}
