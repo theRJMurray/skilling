@@ -8,12 +8,19 @@ const skillTitleStyles = {
 const Skill = props => {
 	const [exp, setExp] = useState(0);
 	const [level, setLevel] = useState(1);
-	const [visible, setVisible] = useState(true);
+	const [visible, setVisible] = useState(false);
 
 	//Leveling System
-	const levelMarks = [5, 15, 30, 50, 100];
+	const levelMarks = [4, 12, 24, 48, 75, 125, 175, 225, 300, 375, 500];
 	const gainExp = () => {
-		setExp(exp + 1);
+		if (level >= 10) {
+			setExp(exp + 3);
+		} else if (level >= 5) {
+			setExp(exp + 2);
+		} else {
+			setExp(exp + 1);
+		}
+
 		if (levelMarks.includes(exp + 1)) {
 			setLevel(level + 1);
 		}
