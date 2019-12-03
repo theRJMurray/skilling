@@ -1,0 +1,52 @@
+.skillContainer {
+    border: 3px solid #313638;
+    width: 250px;
+    padding: 0;
+    margin: 25px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Title Dropdown */
+.skillTitleBox {
+    background: #E8E9EB;
+    height: 35px;
+    border-bottom: 3px solid #313638;
+}
+
+.skillTitle {
+    padding: 2px 0;
+    text-align: center;
+    font-size: 1.6em;
+    user-select: none;
+}
+
+/* Stats */
+.statsBox {
+    background: #E0DFD5;
+}
+
+.levelInfo {
+    padding: 10px 0 0 10px;
+    margin: 0;
+    font-size: 1.5em;
+    user-select: none;
+}
+
+.expInfo {
+    padding: 10px 0 0 10px;
+    margin: 0;
+    font-size: 1.5em;
+    user-select: none;
+}
+
+.buttonContainer {
+    margin: 10px 0 0;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #F09D51;
+    border: 3px solid #313638;
+}

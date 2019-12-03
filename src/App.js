@@ -5,8 +5,10 @@ const App = () => {
   return (
     <div>
       <Skill skillName={"Woodcutting"} skillAction={"Chop Wood"} />
-      <Skill skillName={"Mining"} skillAction={"Mine Ore"} />
-      <Skill skillName={"Fishing"} skillAction={"Catch Fish"} />
+      <Skill skillName={"Kite Flying"} skillAction={"Fly Kite"} />
+      <Skill skillName={"Parkour"} skillAction={"Climb and Jump"} />
+      <Skill skillName={"Coding"} skillAction={"Roll Face on Keyboard"} />
+      <Skill skillName={"Wizardy"} skillAction={"Cast Spells"} />
     </div>
   );
 };

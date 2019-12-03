@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
-
-const skillContainerStyles = {
-	border: '1px solid red',
-	width: 300,
-	padding: 25
-}
+import '../css/Skill.css'
 
 const skillTitleStyles = {
-	padding: 0,
-	margin: 0,
-	textAlign: 'center'
+
 }
 
 const Skill = props => {
@@ -31,18 +24,19 @@ const Skill = props => {
 	}
 
 	return (
-		<div>
-			<div>
-				<h1 style={skillTitleStyles} onClick={clickShow}> {props.skillName} </h1>
+		<div className="skillContainer">
+			<div className="skillTitleBox">
+				<h1 className="skillTitle" onClick={clickShow}> {props.skillName} </h1>
 			</div>
 			<>
-				{visible ? <div style={skillContainerStyles}>
-					<h2>Level: {level} </h2>
-					<h3>Experience: {exp} </h3>
-					<div>
-						<button onClick={gainExp}> {props.skillAction} </button>
-					</div>
-				</div> : null
+				{visible ?
+					<div className="statsBox">
+						<h2 className="levelInfo">Level: {level} </h2>
+						<h3 className="expInfo">Experience: {exp} </h3>
+						<div className="buttonContainer">
+							<button class="btn btn-primary" onClick={gainExp}> {props.skillAction} </button>
+						</div>
+					</div> : null
 				}
 			</>
 		</div>
