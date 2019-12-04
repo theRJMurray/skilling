@@ -1,6 +1,8 @@
 ## Skilling
 A game where you skill.
 
+## Install dependencies: `npm install`
+
 ## To run app type: `npm start`
 
 Runs the app in the development mode.<br />
