@@ -33,30 +33,30 @@ const App = () => {
 	}
 
 	return (
-		<div>
-			<Skill takeAction={chopWood} skill={woodcutting} skillName={"Woodcutting"} skillAction={"Chop Wood"} />
-			<Skill takeAction={mineOre} skill={mining} skillName={"Mining"} skillAction={"Mine Ore"} />
+		<div style={{ display: 'flex' }}>
+			<div>
+				<Skill takeAction={chopWood} skill={woodcutting} skillName={"Woodcutting"} skillAction={"Chop Wood"} />
+				<Skill takeAction={mineOre} skill={mining} skillName={"Mining"} skillAction={"Mine Ore"} />
+			</div>
+			<div>
+				<Inventory />
+			</div>
 		</div>
 	);
 };
 
 export default App;
 
-const Inventory = () => {
-	let starterKit = [
-		{ id: 0, name: 'shovel', quantity: 1 },
-		{ id: 1, name: 'pickle', quantity: 4 }
-	]
-
-	const [inventory, setInventory] = useState(starterKit)
+const Inventory = props => {
 
 	return (
 		<div className="inventoryContainer">
-			{inventory.map((o) =>
+			{/* {inventory.map((o) =>
 				<div>
 					<p>{o.name}</p>
 					<p>{o.quantity}</p>
-				</div>)}
+				</div>)
+			} */}
 		</div>
 	);
 }
