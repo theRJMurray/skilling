@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import '../css/Skill.css'
 
 const Skill = props => {
-	const [exp, setExp] = useState(0);
-	const [level, setLevel] = useState(1);
 	const [visible, setVisible] = useState(false);
 
 	const clickShow = () => {
