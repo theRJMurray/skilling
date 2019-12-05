@@ -16,6 +16,7 @@ const App = () => {
 	const levelMarks = [4, 12, 24, 48, 75, 125, 175, 225, 300, 375, 500]
 
 	const chopWood = () => {
+		//Gain Exp
 		if (levelMarks.includes(woodcutting.exp + 1)) {
 			setWoodcutting({ exp: woodcutting.exp + 1, level: woodcutting.level + 1 })
 		} else {
