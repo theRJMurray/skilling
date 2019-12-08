@@ -7,3 +7,9 @@
     margin: 0;
     font-family: 'Montserrat', sans-serif;
 }
+
+.collect {
+    width: 350px;
+    background: #707070;
+    border: 3px solid #313638;
+}

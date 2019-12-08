@@ -2,7 +2,7 @@
     border: 3px solid #313638;
     width: 250px;
     padding: 0;
-    margin: 25px;
+    margin: 25px auto;
     border-radius: 5px;
     font-family: 'Montserrat', sans-serif;
 }
@@ -24,13 +24,6 @@
 /* Stats */
 .statsBox {
     background: #E0DFD5;
-    transition: display 2s ease;
-}
-
-.statsBox-after {
-    background: #E0DFD5;
-    opacity: 0;
-    display: none;
 }
 
 .levelInfo {

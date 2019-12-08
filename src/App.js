@@ -11,7 +11,6 @@ const App = () => {
 	}
 	const [wood, setWood] = useState(0)
 	const [woodcutting, setWoodcutting] = useState(baseStats)
-
 	const [mining, setMining] = useState(baseStats)
 
 	const levelMarks = [4, 12, 24, 48, 75, 125, 175, 225, 300, 375, 500]
@@ -39,7 +38,7 @@ const App = () => {
 			<div className="titanPanel">
 				{wood > 0 ? <Inventory wood={wood} /> : null}
 			</div>
-			<div>
+			<div className="collect">
 				<Skill takeAction={chopWood} skill={woodcutting} skillName={"Woodcutting"} skillAction={"Chop Wood"} />
 				<Skill takeAction={mineOre} skill={mining} skillName={"Mining"} skillAction={"Mine Ore"} />
 			</div>
