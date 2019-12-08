@@ -1,0 +1,12 @@
+.stats {
+    margin-top: 5px;
+    margin-left: 60px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 1.25em;
+    width: 125px;
+}
+
+.image {
+    margin-right: 15px;
+}
