@@ -1,18 +1,29 @@
 import React, { useState } from "react";
 import Skill from "./components/Skill";
+import Inventory from "./components/Inventory";
+
 import Logs from "./imgs/logs.png";
+import Planks from "./imgs/planks.png";
+
+
 import './css/App.css'
-import './css/Inventory.css';
 
 const App = () => {
+	//State Variables
 	const baseStats = {
 		exp: 0,
 		level: 1
 	}
 	const [wood, setWood] = useState(0)
 	const [woodcutting, setWoodcutting] = useState(baseStats)
-	const [mining, setMining] = useState(baseStats)
 
+	const [plank, setPlank] = useState(0)
+	const [makePlank, setMakePlank] = useState(baseStats)
+
+	const [mining, setMining] = useState(baseStats)
+	//End of State Variables
+
+	//Gameplay
 	const levelMarks = [4, 12, 24, 48, 75, 125, 175, 225, 300, 375, 500]
 
 	const chopWood = () => {
@@ -33,30 +44,34 @@ const App = () => {
 		}
 	}
 
+	const refineWood = () => {
+		if (wood >= 1) {
+			if (levelMarks.includes(makePlank.exp + 1)) {
+				setMakePlank({ exp: makePlank.exp + 1, level: makePlank.level + 1 })
+			} else {
+				setMakePlank({ exp: makePlank.exp + 1, level: makePlank.level })
+			}
+			setWood(wood - 1)
+			setPlank(plank + 1)
+		}
+	}
+
 	return (
 		<div>
 			<div className="titanPanel">
-				{wood > 0 ? <Inventory wood={wood} /> : null}
+				<Inventory wood={wood} image={Logs} item={wood} />
+				<Inventory plank={plank} image={Planks} item={plank} />
 			</div>
-			<div className="collect">
-				<Skill takeAction={chopWood} skill={woodcutting} skillName={"Woodcutting"} skillAction={"Chop Wood"} />
-				<Skill takeAction={mineOre} skill={mining} skillName={"Mining"} skillAction={"Mine Ore"} />
+			<div style={{ display: 'flex' }}>
+				<div className="collect">
+					<Skill takeAction={chopWood} skill={woodcutting} skillName={"Woodcutting"} skillAction={"Chop Wood"} />
+				</div>
+				<div className="refine">
+					<Skill takeAction={refineWood} skill={makePlank} skillName={"Wood Refining"} skillAction={"Refine Wood"} />
+				</div>
 			</div>
-
 		</div>
 	);
 };
 
 export default App;
-
-const Inventory = props => {
-
-	return (
-		<div className="inventoryContainer">
-			<div className="woodStats">
-				<img className="wood" style={{ width: 60, height: 60 }} src={Logs} />
-				<span className="woodQuantity">{props.wood}</span>
-			</div>
-		</div>
-	);
-}
