@@ -24,6 +24,13 @@
 /* Stats */
 .statsBox {
     background: #E0DFD5;
+    transition: display 2s ease;
+}
+
+.statsBox-after {
+    background: #E0DFD5;
+    opacity: 0;
+    display: none;
 }
 
 .levelInfo {

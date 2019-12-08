@@ -1,9 +1,20 @@
-.inventoryContainer {
-    width: 400px;
-    height: 600px;
+/* .inventoryContainer {
+    width: 100%;
+    height: 60px;
     background: #E0DFD5;
     border: 3px solid #313638;
     display: flex;
-    margin: 25px;
+    margin: 0;
     font-family: 'Montserrat', sans-serif;
+} */
+
+.woodStats {
+    margin-left: 60px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+.wood {
+    margin-right: 15px;
 }
