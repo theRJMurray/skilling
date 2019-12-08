@@ -5,6 +5,7 @@
     font-weight: bold;
     font-size: 1.25em;
     width: 125px;
+    user-select: none;
 }
 
 .image {
