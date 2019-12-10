@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Skill from "./components/Skill";
 import Inventory from "./components/Inventory";
+import Tool from "./components/Tool";
 
 import Logs from "./imgs/logs.png";
 import Planks from "./imgs/planks.png";
+import WoodAxe from "./imgs/woodAxe.png";
 
 
 import './css/App.css'
@@ -61,9 +63,12 @@ const App = () => {
 			<div className="titanPanel">
 				<Inventory wood={wood} image={Logs} item={wood} />
 				<Inventory plank={plank} image={Planks} item={plank} />
-				<Timer />
 			</div>
 			<div style={{ display: 'flex' }}>
+				<div className="toolbelt">
+					<Tool icon={WoodAxe} />
+					<Tool icon={WoodAxe} />
+				</div>
 				<div className="collect">
 					<Skill takeAction={chopWood} skill={woodcutting} skillName={"Woodcutting"} skillAction={"Chop Wood"} />
 				</div>
