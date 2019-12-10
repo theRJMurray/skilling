@@ -7,10 +7,8 @@ const textStyles = {
     marginTop: 11
 }
 
-const Timer = props => {
-    const [minutes, setMinutes] = useState(0)
-    const [seconds, setSeconds] = useState(0)
-
+const Timer = ({ seconds, minutes }, props) => {
+    //TODO: Must take seconds and convert to minutes for viewing.
     useEffect(() => {
         const tick = setInterval(() => {
             if (seconds > 0) {

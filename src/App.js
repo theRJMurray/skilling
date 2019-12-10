@@ -22,6 +22,9 @@ const App = () => {
 	const [plank, setPlank] = useState(0)
 	const [makePlank, setMakePlank] = useState(baseStats)
 
+	const [minutes, setMinutes] = useState(0)
+	const [seconds, setSeconds] = useState(0)
+
 	const [mining, setMining] = useState(baseStats)
 	//End of State Variables
 
@@ -47,14 +50,20 @@ const App = () => {
 	}
 
 	const refineWood = () => {
-		if (wood >= 1) {
+		if (wood >= 2) {
 			if (levelMarks.includes(makePlank.exp + 1)) {
 				setMakePlank({ exp: makePlank.exp + 1, level: makePlank.level + 1 })
 			} else {
 				setMakePlank({ exp: makePlank.exp + 1, level: makePlank.level })
 			}
-			setWood(wood - 1)
+			setWood(wood - 2)
 			setPlank(plank + 1)
+		}
+	}
+
+	const craftCampfire = () => {
+		if (wood >= 3) {
+			setMinutes(minutes + 1)
 		}
 	}
 
@@ -63,7 +72,7 @@ const App = () => {
 			<div className="titanPanel">
 				<Inventory image={Logs} item={wood} />
 				<Inventory image={Planks} item={plank} />
-				<Timer image={Campfire} />
+				<Timer image={Campfire} seconds={seconds} minutes={minutes} />
 			</div>
 			<div style={{ display: 'flex' }}>
 				<div className="collect">
@@ -71,6 +80,9 @@ const App = () => {
 				</div>
 				<div className="refine">
 					<Skill takeAction={refineWood} skill={makePlank} skillName={"Wood Refining"} skillAction={"Refine Wood"} />
+				</div>
+				<div className="craft">
+					<Skill takeAction={craftCampfire} skill={makePlank} skillName={"Campfire Crafting"} skillAction={"Craft Campfire"} />
 				</div>
 			</div>
 		</div>
