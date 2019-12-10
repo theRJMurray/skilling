@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Skill from "./components/Skill";
 import Inventory from "./components/Inventory";
+import Timer from "./components/Timer";
 
 import Logs from "./imgs/logs.png";
 import Planks from "./imgs/planks.png";
+import Campfire from "./imgs/campfire.png";
 
 
 import './css/App.css'
@@ -59,9 +61,9 @@ const App = () => {
 	return (
 		<div>
 			<div className="titanPanel">
-				<Inventory wood={wood} image={Logs} item={wood} />
-				<Inventory plank={plank} image={Planks} item={plank} />
-				<Timer />
+				<Inventory image={Logs} item={wood} />
+				<Inventory image={Planks} item={plank} />
+				<Timer image={Campfire} />
 			</div>
 			<div style={{ display: 'flex' }}>
 				<div className="collect">
