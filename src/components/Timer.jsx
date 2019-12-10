@@ -8,9 +8,8 @@ const textStyles = {
 }
 
 const Timer = props => {
-    const [minutes, setMinutes] = useState(2)
-    const [seconds, setSeconds] = useState(30)
-    const [on, setOn] = useState(true)
+    const [minutes, setMinutes] = useState(0)
+    const [seconds, setSeconds] = useState(0)
 
     useEffect(() => {
         const tick = setInterval(() => {
@@ -21,7 +20,6 @@ const Timer = props => {
             if (seconds === 0) {
                 if (minutes === 0) {
                     clearInterval(tick)
-                    setOn(false)
                 } else {
                     setMinutes(minutes - 1)
                     setSeconds(59)
