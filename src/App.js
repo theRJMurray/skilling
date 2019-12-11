@@ -88,13 +88,13 @@ const App = () => {
 	}
 
 	const craftCampfire = () => {
-		if (wood >= 10) {
+		if (wood >= 3) {
 			if (levelMarks.includes(makeCampfire.exp + 1)) {
 				setMakeCampfire({ exp: makeCampfire.exp + 1, level: makeCampfire.level + 1 })
 			} else {
 				setMakeCampfire({ exp: makeCampfire.exp + 1, level: makeCampfire.level })
 			}
-			setWood(wood - 10)
+			setWood(wood - 3)
 			setMinutes(minutes + 1)
 		}
 	}
