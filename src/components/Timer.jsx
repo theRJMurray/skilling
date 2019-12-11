@@ -4,7 +4,8 @@ const textStyles = {
     fontFamily: "'Montserrat', sans-serif",
     fontWeight: 'bold',
     fontSize: '1.25em',
-    marginTop: 11
+    marginTop: 11,
+    width: 120
 }
 
 const Timer = props => {
