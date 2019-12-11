@@ -6,6 +6,7 @@ import Timer from "./components/Timer";
 import Logs from "./imgs/logs.png";
 import Planks from "./imgs/planks.png";
 import Campfire from "./imgs/campfire.png";
+import Fish from "./imgs/fish.png";
 
 
 import './css/App.css'
@@ -25,6 +26,12 @@ const App = () => {
 	const [makeCampfire, setMakeCampfire] = useState(baseStats)
 	const [minutes, setMinutes] = useState(0)
 	const [seconds, setSeconds] = useState(0)
+
+	const [fish, setFish] = useState(0)
+	const [fishing, setFishing] = useState(baseStats)
+
+	const [cookedFish, setCookedFish] = useState(0)
+	const [cooking, setCooking] = useState(baseStats)
 
 	const [mining, setMining] = useState(baseStats)
 	//End of State Variables
@@ -86,16 +93,27 @@ const App = () => {
 		setSeconds(z)
 	}
 
+	const catchFish = () => {
+		if (levelMarks.includes(fishing.exp + 1)) {
+			setFishing({ exp: fishing.exp + 1, level: fishing.level + 1 })
+		} else {
+			setFishing({ exp: fishing.exp + 1, level: fishing.level })
+		}
+		setFish(fish + 1);
+	}
+
 	return (
 		<div>
 			<div className="titanPanel">
 				<Inventory image={Logs} item={wood} />
 				<Inventory image={Planks} item={plank} />
 				<Timer makeSeconds={makeSeconds} decreaseSeconds={decreaseSeconds} decreaseMinutes={decreaseMinutes} image={Campfire} seconds={seconds} minutes={minutes} />
+				<Inventory image={Fish} item={fish} />
 			</div>
 			<div style={{ display: 'flex' }}>
 				<div className="collect">
 					<Skill takeAction={chopWood} skill={woodcutting} skillName={"Woodcutting"} skillAction={"Chop Wood"} />
+					<Skill takeAction={catchFish} skill={fishing} skillName={"Fishing"} skillAction={"Catch Fish"} />
 				</div>
 				<div className="refine">
 					<Skill takeAction={refineWood} skill={makePlank} skillName={"Wood Refining"} skillAction={"Refine Wood"} />
