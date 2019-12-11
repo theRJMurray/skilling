@@ -1,4 +1,5 @@
 import React from "react";
+import Timer from "./Timer";
 import '../css/Inventory.css';
 
 const Inventory = props => {

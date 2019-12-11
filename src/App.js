@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Skill from "./components/Skill";
 import Inventory from "./components/Inventory";
+import Timer from "./components/Timer";
 
 import Logs from "./imgs/logs.png";
 import Planks from "./imgs/planks.png";
+import Campfire from "./imgs/campfire.png";
 
 
 import './css/App.css'
@@ -19,6 +21,10 @@ const App = () => {
 
 	const [plank, setPlank] = useState(0)
 	const [makePlank, setMakePlank] = useState(baseStats)
+
+	const [makeCampfire, setMakeCampfire] = useState(baseStats)
+	const [minutes, setMinutes] = useState(0)
+	const [seconds, setSeconds] = useState(0)
 
 	const [mining, setMining] = useState(baseStats)
 	//End of State Variables
@@ -45,22 +51,47 @@ const App = () => {
 	}
 
 	const refineWood = () => {
-		if (wood >= 1) {
+		if (wood >= 2) {
 			if (levelMarks.includes(makePlank.exp + 1)) {
 				setMakePlank({ exp: makePlank.exp + 1, level: makePlank.level + 1 })
 			} else {
 				setMakePlank({ exp: makePlank.exp + 1, level: makePlank.level })
 			}
-			setWood(wood - 1)
+			setWood(wood - 2)
 			setPlank(plank + 1)
 		}
+	}
+
+	const craftCampfire = () => {
+		if (wood >= 10) {
+			if (levelMarks.includes(makeCampfire.exp + 1)) {
+				setMakeCampfire({ exp: makeCampfire.exp + 1, level: makeCampfire.level + 1 })
+			} else {
+				setMakeCampfire({ exp: makeCampfire.exp + 1, level: makeCampfire.level })
+			}
+			setWood(wood - 10)
+			setMinutes(minutes + 1)
+		}
+	}
+
+	const decreaseSeconds = z => {
+		setSeconds(seconds - z)
+	}
+
+	const decreaseMinutes = z => {
+		setMinutes(minutes - z)
+	}
+
+	const makeSeconds = z => {
+		setSeconds(z)
 	}
 
 	return (
 		<div>
 			<div className="titanPanel">
-				<Inventory wood={wood} image={Logs} item={wood} />
-				<Inventory plank={plank} image={Planks} item={plank} />
+				<Inventory image={Logs} item={wood} />
+				<Inventory image={Planks} item={plank} />
+				<Timer makeSeconds={makeSeconds} decreaseSeconds={decreaseSeconds} decreaseMinutes={decreaseMinutes} image={Campfire} seconds={seconds} minutes={minutes} />
 			</div>
 			<div style={{ display: 'flex' }}>
 				<div className="collect">
@@ -68,6 +99,9 @@ const App = () => {
 				</div>
 				<div className="refine">
 					<Skill takeAction={refineWood} skill={makePlank} skillName={"Wood Refining"} skillAction={"Refine Wood"} />
+				</div>
+				<div className="craft">
+					<Skill takeAction={craftCampfire} skill={makeCampfire} skillName={"Campfire Crafting"} skillAction={"Craft Campfire"} />
 				</div>
 			</div>
 		</div>
