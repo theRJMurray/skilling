@@ -37,6 +37,19 @@ const App = () => {
 	const [mining, setMining] = useState(baseStats)
 	//End of State Variables
 
+	//Timer Functions
+	const decreaseSeconds = z => {
+		setSeconds(seconds - z)
+	}
+
+	const decreaseMinutes = z => {
+		setMinutes(minutes - z)
+	}
+
+	const makeSeconds = z => {
+		setSeconds(z)
+	}
+
 	//Gameplay
 	const levelMarks = [4, 12, 24, 48, 75, 125, 175, 225, 300, 375, 500]
 
@@ -84,18 +97,6 @@ const App = () => {
 			setWood(wood - 10)
 			setMinutes(minutes + 1)
 		}
-	}
-
-	const decreaseSeconds = z => {
-		setSeconds(seconds - z)
-	}
-
-	const decreaseMinutes = z => {
-		setMinutes(minutes - z)
-	}
-
-	const makeSeconds = z => {
-		setSeconds(z)
 	}
 
 	const catchFish = () => {
