@@ -40,17 +40,21 @@ const App = () => {
 	//Gameplay
 	const levelMarks = [4, 12, 24, 48, 75, 125, 175, 225, 300, 375, 500]
 
-	const chopWood = () => {
-		//Gain Exp
-		if (levelMarks.includes(woodcutting.exp + 1)) {
-			setWoodcutting({ exp: woodcutting.exp + 1, level: woodcutting.level + 1 })
+	const levelSkill = (skillName, skillSetter, inventoryName, inventorySetter) => {
+		if (levelMarks.includes(skillName.exp + 1)) {
+			skillSetter({ exp: skillName.exp + 1, level: skillName.level + 1 })
 		} else {
-			setWoodcutting({ exp: woodcutting.exp + 1, level: woodcutting.level })
+			skillSetter({ exp: skillName.exp + 1, level: skillName.level })
 		}
-		setWood(wood + 1);
+		inventorySetter(inventoryName + 1);
 	}
 
-	const mineOre = () => {
+	const chopWood = () => {
+		//Gain Exp
+		levelSkill(woodcutting, setWoodcutting, wood, setWood)
+	}
+
+	const mineStone = () => {
 		if (levelMarks.includes(mining.exp + 1)) {
 			setMining({ exp: mining.exp + 1, level: mining.level + 1 })
 		} else {
@@ -93,16 +97,6 @@ const App = () => {
 	const makeSeconds = z => {
 		setSeconds(z)
 	}
-
-	const levelSkill = (skillName, skillSetter, inventoryName, inventorySetter) => {
-		if (levelMarks.includes(skillName.exp + 1)) {
-			skillSetter({ exp: skillName.exp + 1, level: skillName.level + 1 })
-		} else {
-			skillSetter({ exp: skillName.exp + 1, level: skillName.level })
-		}
-		inventorySetter(inventoryName + 1);
-	}
-
 
 	const catchFish = () => {
 		if (levelMarks.includes(fishing.exp + 1)) {
