@@ -7,6 +7,7 @@ import Logs from "./imgs/logs.png";
 import Planks from "./imgs/planks.png";
 import Campfire from "./imgs/campfire.png";
 import Fish from "./imgs/fish.png";
+import CookedFish from "./imgs/cookedFish.png";
 
 
 import './css/App.css'
@@ -93,6 +94,16 @@ const App = () => {
 		setSeconds(z)
 	}
 
+	const levelSkill = (skillName, skillSetter, inventoryName, inventorySetter) => {
+		if (levelMarks.includes(skillName.exp + 1)) {
+			skillSetter({ exp: skillName.exp + 1, level: skillName.level + 1 })
+		} else {
+			skillSetter({ exp: skillName.exp + 1, level: skillName.level })
+		}
+		inventorySetter(inventoryName + 1);
+	}
+
+
 	const catchFish = () => {
 		if (levelMarks.includes(fishing.exp + 1)) {
 			setFishing({ exp: fishing.exp + 1, level: fishing.level + 1 })
@@ -102,6 +113,17 @@ const App = () => {
 		setFish(fish + 1);
 	}
 
+	const cookFish = () => {
+		if (fish >= 1) {
+			if (minutes === 0 && seconds === 0) {
+				return;
+			} else {
+				levelSkill(cooking, setCooking, cookedFish, setCookedFish)
+				setFish(fish - 1)
+			}
+		}
+	}
+
 	return (
 		<div>
 			<div className="titanPanel">
@@ -109,6 +131,7 @@ const App = () => {
 				<Inventory image={Planks} item={plank} />
 				<Timer makeSeconds={makeSeconds} decreaseSeconds={decreaseSeconds} decreaseMinutes={decreaseMinutes} image={Campfire} seconds={seconds} minutes={minutes} />
 				<Inventory image={Fish} item={fish} />
+				<Inventory image={CookedFish} item={cookedFish} />
 			</div>
 			<div style={{ display: 'flex' }}>
 				<div className="collect">
@@ -117,6 +140,7 @@ const App = () => {
 				</div>
 				<div className="refine">
 					<Skill takeAction={refineWood} skill={makePlank} skillName={"Wood Refining"} skillAction={"Refine Wood"} />
+					<Skill takeAction={cookFish} skill={cooking} skillName={"Cooking"} skillAction={"Cook Fish"} />
 				</div>
 				<div className="craft">
 					<Skill takeAction={craftCampfire} skill={makeCampfire} skillName={"Campfire Crafting"} skillAction={"Craft Campfire"} />
