@@ -22,6 +22,12 @@ const App = () => {
 		exp: 0,
 		level: 1
 	}
+
+	const starterKit = [
+		{name: "axe", icon: WoodAxe},
+		{name: "saw", icon: Saw},
+	]
+
 	const [wood, setWood] = useState(0)
 	const [woodcutting, setWoodcutting] = useState(baseStats)
 
@@ -39,6 +45,7 @@ const App = () => {
 	const [cooking, setCooking] = useState(baseStats)
 
 	const [mining, setMining] = useState(baseStats)
+	const [tools, setTools] = useState(starterKit)
 	//End of State Variables
 
 	//Timer Functions
