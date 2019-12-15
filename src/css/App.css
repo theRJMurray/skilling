@@ -18,6 +18,8 @@ body {
     background: #5998C5;
     border: 3px solid #313638;
     display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
 }
 
 .collect {
