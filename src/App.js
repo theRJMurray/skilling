@@ -12,6 +12,7 @@ import CookedFish from "./imgs/cookedFish.png";
 
 
 import WoodAxe from "./imgs/woodAxe.png";
+import Saw from "./imgs/saw2.jpg";
 
 
 import './css/App.css'
