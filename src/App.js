@@ -44,7 +44,6 @@ const App = () => {
 	const [cookedFish, setCookedFish] = useState(0)
 	const [cooking, setCooking] = useState(baseStats)
 
-	const [mining, setMining] = useState(baseStats)
 	const [tools, setTools] = useState(starterKit)
 	//End of State Variables
 
@@ -76,14 +75,6 @@ const App = () => {
 	const chopWood = () => {
 		//Gain Exp
 		levelSkill(woodcutting, setWoodcutting, wood, setWood)
-	}
-
-	const mineStone = () => {
-		if (levelMarks.includes(mining.exp + 1)) {
-			setMining({ exp: mining.exp + 1, level: mining.level + 1 })
-		} else {
-			setMining({ exp: mining.exp + 1, level: mining.level })
-		}
 	}
 
 	const refineWood = () => {
