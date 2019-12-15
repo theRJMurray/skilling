@@ -141,7 +141,7 @@ const App = () => {
 			</div>
 			<div style={{ display: 'flex' }}>
 				<div className="toolbelt">
-					<Tool icon={WoodAxe} />
+					{tools.map(tool => <Tool icon={tool.icon} />)}
 				</div>
 				<div className="collect">
 					<Skill takeAction={chopWood} skill={woodcutting} skillName={"Woodcutting"} skillAction={"Chop Wood"} />
