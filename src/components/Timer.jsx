@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 const textStyles = {
     fontFamily: "'Montserrat', sans-serif",
@@ -30,7 +30,7 @@ const Timer = props => {
 
 
     return <div style={{ display: 'flex', marginLeft: 60 }}>
-        <img className="image" style={{ width: 48, height: 48, marginTop: 2 }} src={props.image} />
+        <img className="image" style={{ width: 48, height: 48, marginTop: 2 }} src={props.image} alt=""/>
         <div style={textStyles}>
             {props.minutes === 0 && props.seconds === 0
                 ? <span>Burnt Out</span>
