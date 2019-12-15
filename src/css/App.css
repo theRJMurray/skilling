@@ -1,3 +1,7 @@
+body {
+    background: #c3c2ba;
+}
+
 .titanPanel {
     width: 100%;
     height: 60px;
@@ -10,7 +14,7 @@
 
 .toolbelt {
     width: 100px;
-    height: 800px;
+    height: 900px;
     background: #5998C5;
     border: 3px solid #313638;
     display: flex;
@@ -20,6 +24,7 @@
     width: 350px;
     background: #707070;
     border: 3px solid #313638;
+    height: 900px;
 }
 
 .refine {
@@ -28,3 +33,8 @@
     border: 3px solid #313638;
 }
 
+.craft {
+    width: 350px;
+    background: #776871;
+    border: 3px solid #313638;
+}

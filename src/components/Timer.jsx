@@ -1,21 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from "react";
 
-const Timer = () => {
-    const [minutes, setMinutes] = useState(2)
-    const [seconds, setSeconds] = useState(30)
+const textStyles = {
+    fontFamily: "'Montserrat', sans-serif",
+    fontWeight: 'bold',
+    fontSize: '1.25em',
+    marginTop: 11,
+    width: 120
+}
+
+const Timer = props => {
 
     useEffect(() => {
         const tick = setInterval(() => {
-            if (seconds > 0) {
-                setSeconds(seconds - 1)
+            if (props.seconds > 0) {
+                props.decreaseSeconds(1)
             }
 
-            if (seconds === 0) {
-                if (minutes === 0) {
+            if (props.seconds === 0) {
+                if (props.minutes === 0) {
                     clearInterval(tick)
                 } else {
-                    setMinutes(minutes - 1)
-                    setSeconds(59)
+                    props.decreaseMinutes(1)
+                    props.makeSeconds(59)
                 }
             }
         }, 1000)
@@ -23,12 +29,14 @@ const Timer = () => {
     })
 
 
-    return <div>
-        <img className="image" style={{ width: 48, height: 48 }} src={props.image} />
-        {minutes === 0 && seconds === 0
-            ? <span>Burnt Out</span>
-            : <span>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</span>
-        }
+    return <div style={{ display: 'flex', marginLeft: 60 }}>
+        <img className="image" style={{ width: 48, height: 48, marginTop: 2 }} src={props.image} />
+        <div style={textStyles}>
+            {props.minutes === 0 && props.seconds === 0
+                ? <span>Burnt Out</span>
+                : <span>{props.minutes}:{props.seconds < 10 ? `0${props.seconds}` : props.seconds}</span>
+            }
+        </div>
     </div>
 }
 

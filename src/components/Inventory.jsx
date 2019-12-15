@@ -1,16 +1,15 @@
 import React from "react";
+import Timer from "./Timer";
 import '../css/Inventory.css';
 
 const Inventory = props => {
 
-    return (
-        <div className="inventoryContainer">
-            <div className="stats">
-                <img className="image" style={{ width: 48, height: 48 }} src={props.image} alt="" />
-                <span className="quantity">{props.item}</span>
-            </div>
+    return <div className="inventoryContainer">
+        <div className="stats">
+            {props.image && <img className="image" style={{ width: 48, height: 48 }} src={props.image} alt="" />}
+            <span className="quantity">{props.item}</span>
         </div>
-    );
+    </div>
 }
 
 export default Inventory;
