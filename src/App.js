@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Skill from "./components/Skill";
 import Inventory from "./components/Inventory";
+import Tool from "./components/Tool";
 import Timer from "./components/Timer";
 
 import Logs from "./imgs/logs.png";
@@ -8,6 +9,10 @@ import Planks from "./imgs/planks.png";
 import Campfire from "./imgs/campfire.png";
 import Fish from "./imgs/fish.png";
 import CookedFish from "./imgs/cookedFish.png";
+
+
+import WoodAxe from "./imgs/woodAxe.png";
+import Saw from "./imgs/saw2.jpg";
 
 
 import './css/App.css'
@@ -18,6 +23,12 @@ const App = () => {
 		exp: 0,
 		level: 1
 	}
+
+	const starterKit = [
+		{name: "axe", icon: WoodAxe},
+		{name: "saw", icon: Saw},
+	]
+
 	const [wood, setWood] = useState(0)
 	const [woodcutting, setWoodcutting] = useState(baseStats)
 
@@ -34,7 +45,7 @@ const App = () => {
 	const [cookedFish, setCookedFish] = useState(0)
 	const [cooking, setCooking] = useState(baseStats)
 
-	const [mining, setMining] = useState(baseStats)
+	const [tools, setTools] = useState(starterKit)
 	//End of State Variables
 
 	//Timer Functions
@@ -65,14 +76,6 @@ const App = () => {
 	const chopWood = () => {
 		//Gain Exp
 		levelSkill(woodcutting, setWoodcutting, wood, setWood)
-	}
-
-	const mineStone = () => {
-		if (levelMarks.includes(mining.exp + 1)) {
-			setMining({ exp: mining.exp + 1, level: mining.level + 1 })
-		} else {
-			setMining({ exp: mining.exp + 1, level: mining.level })
-		}
 	}
 
 	const refineWood = () => {
@@ -129,6 +132,9 @@ const App = () => {
 				<Inventory image={CookedFish} item={cookedFish} />
 			</div>
 			<div style={{ display: 'flex' }}>
+				<div className="toolbelt">
+					{tools.map(tool => <Tool icon={tool.icon} />)}
+				</div>
 				<div className="collect">
 					<Skill takeAction={chopWood} skill={woodcutting} skillName={"Woodcutting"} skillAction={"Chop Wood"} />
 					<Skill takeAction={catchFish} skill={fishing} skillName={"Fishing"} skillAction={"Catch Fish"} />
