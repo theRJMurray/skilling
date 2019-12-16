@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Skill from "./components/Skill";
 import Inventory from "./components/Inventory";
 import Tool from "./components/Tool";
@@ -9,10 +9,14 @@ import Planks from "./imgs/planks.png";
 import Campfire from "./imgs/campfire.png";
 import Fish from "./imgs/fish.png";
 import CookedFish from "./imgs/cookedFish.png";
+import Stone from "./imgs/stone.png";
 
 
 import WoodAxe from "./imgs/woodAxe.png";
 import Saw from "./imgs/saw2.jpg";
+import Hammer from "./imgs/hammer.png";
+import FishingRod from "./imgs/fishingRod.png";
+import Lighter from "./imgs/lighter.png";
 
 
 import './css/App.css'
@@ -25,8 +29,7 @@ const App = () => {
 	}
 
 	const starterKit = [
-		{name: "axe", icon: WoodAxe},
-		{name: "saw", icon: Saw},
+		{name: "axe", icon: WoodAxe}
 	]
 
 	const [wood, setWood] = useState(0)
@@ -44,6 +47,10 @@ const App = () => {
 
 	const [cookedFish, setCookedFish] = useState(0)
 	const [cooking, setCooking] = useState(baseStats)
+
+	const [stone, setStone] = useState(0)
+	const [quarrying, setQuarrying] = useState(baseStats)
+
 
 	const [tools, setTools] = useState(starterKit)
 	//End of State Variables
@@ -71,6 +78,10 @@ const App = () => {
 			skillSetter({ exp: skillName.exp + 1, level: skillName.level })
 		}
 		inventorySetter(inventoryName + 1);
+	}
+
+	const collectStone = () => {
+		levelSkill(quarrying, setQuarrying, stone, setStone)
 	}
 
 	const chopWood = () => {
@@ -122,29 +133,51 @@ const App = () => {
 		}
 	}
 
+	const addTool = (name, icon) => {
+		tools.push({name: name, icon: icon})
+	}
+
+	useEffect(() => {
+		//Unlock Tool: Saw
+		if (woodcutting.exp === 9 && tools.some(e => e.name !== 'hammer')) {
+			addTool('hammer', Hammer)
+		}
+		if (quarrying.exp === 9 && tools.some(e => e.name !== 'saw')) {
+			addTool('saw', Saw)
+		}
+		if (makePlank.exp === 9 && tools.some(e => e.name !== 'fishingRod')) {
+			addTool('fishingRod', FishingRod)
+		}
+		if (quarrying.exp === 19 && tools.some(e => e.name !== 'lighter')) {
+			addTool('lighter', Lighter)
+		}
+	})
+
 	return (
 		<div>
 			<div className="titanPanel">
 				<Inventory image={Logs} item={wood} />
-				<Inventory image={Planks} item={plank} />
-				<Timer makeSeconds={makeSeconds} decreaseSeconds={decreaseSeconds} decreaseMinutes={decreaseMinutes} image={Campfire} seconds={seconds} minutes={minutes} />
-				<Inventory image={Fish} item={fish} />
-				<Inventory image={CookedFish} item={cookedFish} />
+				{tools.some(e => e.name === 'hammer') && <Inventory image={Stone} item={stone} />}
+				{tools.some(e => e.name === 'saw') && <Inventory image={Planks} item={plank} />}
+				{tools.some(e => e.name === 'lighter') && <Timer makeSeconds={makeSeconds} decreaseSeconds={decreaseSeconds} decreaseMinutes={decreaseMinutes} image={Campfire} seconds={seconds} minutes={minutes} />}
+				{tools.some(e => e.name === 'fishingRod') && <Inventory image={Fish} item={fish} />}
+				{tools.some(e => e.name === 'lighter') && <Inventory image={CookedFish} item={cookedFish} />}
 			</div>
 			<div style={{ display: 'flex' }}>
 				<div className="toolbelt">
 					{tools.map(tool => <Tool icon={tool.icon} />)}
 				</div>
 				<div className="collect">
-					<Skill takeAction={chopWood} skill={woodcutting} skillName={"Woodcutting"} skillAction={"Chop Wood"} />
-					<Skill takeAction={catchFish} skill={fishing} skillName={"Fishing"} skillAction={"Catch Fish"} />
+					{tools.some(e => e.name === 'axe') && <Skill takeAction={chopWood} skill={woodcutting} skillName={"Woodcutting"} skillAction={"Chop Wood"} />}
+					{tools.some(e => e.name === 'hammer') && <Skill takeAction={collectStone} skill={quarrying} skillName={"Quarrying"} skillAction={"Collect Stone"} />}
+					{tools.some(e => e.name === 'fishingRod') && <Skill takeAction={catchFish} skill={fishing} skillName={"Fishing"} skillAction={"Catch Fish"} />}
 				</div>
 				<div className="refine">
-					<Skill takeAction={refineWood} skill={makePlank} skillName={"Wood Refining"} skillAction={"Refine Wood"} />
-					<Skill takeAction={cookFish} skill={cooking} skillName={"Cooking"} skillAction={"Cook Fish"} />
+					{tools.some(e => e.name === 'saw') && <Skill takeAction={refineWood} skill={makePlank} skillName={"Wood Refining"} skillAction={"Refine Wood"} />}
+					{tools.some(e => e.name === 'lighter') && <Skill takeAction={cookFish} skill={cooking} skillName={"Cooking"} skillAction={"Cook Fish"} />}
 				</div>
 				<div className="craft">
-					<Skill takeAction={craftCampfire} skill={makeCampfire} skillName={"Campfire Crafting"} skillAction={"Craft Campfire"} />
+					{tools.some(e => e.name === 'lighter') && <Skill takeAction={craftCampfire} skill={makeCampfire} skillName={"Campfire Crafting"} skillAction={"Craft Campfire"} />}
 				</div>
 			</div>
 		</div>
