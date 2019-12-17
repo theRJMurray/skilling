@@ -4,6 +4,7 @@ import Inventory from "./components/Inventory";
 import Tool from "./components/Tool";
 import Timer from "./components/Timer";
 
+import Level from "./imgs/level.png"
 import Logs from "./imgs/logs.png";
 import Planks from "./imgs/planks.png";
 import Campfire from "./imgs/campfire.png";
@@ -25,12 +26,14 @@ const App = () => {
 	//State Variables
 	const baseStats = {
 		exp: 0,
-		level: 1
+		level: 0
 	}
 
 	const starterKit = [
 		{name: "axe", icon: WoodAxe}
 	]
+
+	const [totalLevel, setTotalLevel] = useState(0)
 
 	const [wood, setWood] = useState(0)
 	const [woodcutting, setWoodcutting] = useState(baseStats)
@@ -71,31 +74,29 @@ const App = () => {
 	//Gameplay
 	const levelMarks = [4, 12, 24, 48, 75, 125, 175, 225, 300, 375, 500]
 
-	const levelSkill = (skillName, skillSetter, inventoryName, inventorySetter) => {
+	const levelSkill = (skillName, skillSetter) => {
 		if (levelMarks.includes(skillName.exp + 1)) {
 			skillSetter({ exp: skillName.exp + 1, level: skillName.level + 1 })
+			setTotalLevel(totalLevel + 1)
 		} else {
 			skillSetter({ exp: skillName.exp + 1, level: skillName.level })
 		}
-		inventorySetter(inventoryName + 1);
 	}
 
 	const collectStone = () => {
-		levelSkill(quarrying, setQuarrying, stone, setStone)
+		levelSkill(quarrying, setQuarrying)
+		setStone(stone + 1)
 	}
 
 	const chopWood = () => {
 		//Gain Exp
-		levelSkill(woodcutting, setWoodcutting, wood, setWood)
+		levelSkill(woodcutting, setWoodcutting)
+		setWood(wood + 1)
 	}
 
 	const refineWood = () => {
 		if (wood >= 2) {
-			if (levelMarks.includes(makePlank.exp + 1)) {
-				setMakePlank({ exp: makePlank.exp + 1, level: makePlank.level + 1 })
-			} else {
-				setMakePlank({ exp: makePlank.exp + 1, level: makePlank.level })
-			}
+			levelSkill(makePlank, setMakePlank)
 			setWood(wood - 2)
 			setPlank(plank + 1)
 		}
@@ -103,22 +104,14 @@ const App = () => {
 
 	const craftCampfire = () => {
 		if (wood >= 3) {
-			if (levelMarks.includes(makeCampfire.exp + 1)) {
-				setMakeCampfire({ exp: makeCampfire.exp + 1, level: makeCampfire.level + 1 })
-			} else {
-				setMakeCampfire({ exp: makeCampfire.exp + 1, level: makeCampfire.level })
-			}
+			levelSkill(makeCampfire, setMakeCampfire)
 			setWood(wood - 3)
 			setMinutes(minutes + 1)
 		}
 	}
 
 	const catchFish = () => {
-		if (levelMarks.includes(fishing.exp + 1)) {
-			setFishing({ exp: fishing.exp + 1, level: fishing.level + 1 })
-		} else {
-			setFishing({ exp: fishing.exp + 1, level: fishing.level })
-		}
+		levelSkill(fishing, setFishing)
 		setFish(fish + 1);
 	}
 
@@ -127,7 +120,8 @@ const App = () => {
 			if (minutes === 0 && seconds === 0) {
 				return;
 			} else {
-				levelSkill(cooking, setCooking, cookedFish, setCookedFish)
+				levelSkill(cooking, setCooking)
+				setCookedFish(cookedFish + 1)
 				setFish(fish - 1)
 			}
 		}
@@ -156,6 +150,7 @@ const App = () => {
 	return (
 		<div>
 			<div className="titanPanel">
+				<Inventory image={Level} item={totalLevel} />
 				<Inventory image={Logs} item={wood} />
 				{tools.some(e => e.name === 'hammer') && <Inventory image={Stone} item={stone} />}
 				{tools.some(e => e.name === 'saw') && <Inventory image={Planks} item={plank} />}
