@@ -61,6 +61,8 @@ const App = () => {
 	const [ruby, setRuby] = useState(0)
 	const [prospecting, setProspecting] = useState(baseStats)
 
+	const [sacrifice, setSacrifice] = useState(baseStats)
+
 	const [toolMaking, setToolMaking] = useState(baseStats)
 
 	const [tools, setTools] = useState(starterKit)
@@ -96,6 +98,17 @@ const App = () => {
 		}
 	}
 
+	const sacrificeFish = () => {
+		if (cookedFish > 0) {
+			if (minutes === 0 && seconds === 0) {
+				return;
+			} else {
+				levelSkill(sacrifice, setSacrifice)
+				setCookedFish(cookedFish - 1)
+			}
+		}
+	}
+	
 	const makeTool = () => {
 		if (stone > 1 && plank > 1) {
 			levelSkill(toolMaking, setToolMaking)
@@ -122,13 +135,13 @@ const App = () => {
 
 	const collectStone = () => {
 		levelSkill(quarrying, setQuarrying)
-		setStone(stone + 1)
+		sacrifice.level >= 10 ? setStone(stone + 2) : setStone(stone + 1)
 	}
 
 	const chopWood = () => {
 		//Gain Exp
 		levelSkill(woodcutting, setWoodcutting)
-		setWood(wood + 1)
+		sacrifice.level >= 5 ? setWood(wood + 2) : setWood(wood + 1)
 	}
 
 	const refineWood = () => {
@@ -149,7 +162,7 @@ const App = () => {
 
 	const catchFish = () => {
 		levelSkill(fishing, setFishing)
-		setFish(fish + 1);
+		sacrifice.level >= 15 ? setFish(fish + 2) : setFish(fish + 1);
 	}
 
 	const cookFish = () => {
@@ -217,6 +230,7 @@ const App = () => {
 				<div className="craft">
 					{tools.some(e => e.name === 'saw') && <Skill takeAction={makeTool} skill={toolMaking} skillName={"Tool Making"} skillAction={"Craft Tools"} />}
 					{tools.some(e => e.name === 'lighter') && <Skill takeAction={craftCampfire} skill={makeCampfire} skillName={"Campfire Crafting"} skillAction={"Craft Campfire"} />}
+					{tools.some(e => e.name === 'lighter') && <Skill takeAction={sacrificeFish} skill={sacrifice} skillName={"Sacrifice"} skillAction={"Sacrifice Fish"} />}
 				</div>
 			</div>
 		</div>
