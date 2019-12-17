@@ -11,6 +11,8 @@ import Campfire from "./imgs/campfire.png";
 import Fish from "./imgs/fish.png";
 import CookedFish from "./imgs/cookedFish.png";
 import Stone from "./imgs/stone.png";
+import Sapphire from "./imgs/sapphire.png"
+import Ruby from "./imgs/ruby.png"
 
 
 import WoodAxe from "./imgs/woodAxe.png";
@@ -18,6 +20,7 @@ import Saw from "./imgs/saw2.jpg";
 import Hammer from "./imgs/hammer.png";
 import FishingRod from "./imgs/fishingRod.png";
 import Lighter from "./imgs/lighter.png";
+import Chisel from "./imgs/chisel.png"
 
 
 import './css/App.css'
@@ -54,6 +57,9 @@ const App = () => {
 	const [stone, setStone] = useState(0)
 	const [quarrying, setQuarrying] = useState(baseStats)
 
+	const [sapphire, setSapphire] = useState(0)
+	const [ruby, setRuby] = useState(0)
+	const [prospecting, setProspecting] = useState(baseStats)
 
 	const [tools, setTools] = useState(starterKit)
 	//End of State Variables
@@ -71,6 +77,11 @@ const App = () => {
 		setSeconds(z)
 	}
 
+	//Random Number Generator
+	const randomNumber = (min, max) => {
+		return Math.floor(Math.random() * (max - min + 1) + min)
+	}
+
 	//Gameplay
 	const levelMarks = [4, 12, 24, 48, 75, 125, 175, 225, 300, 375, 500]
 
@@ -80,6 +91,22 @@ const App = () => {
 			setTotalLevel(totalLevel + 1)
 		} else {
 			skillSetter({ exp: skillName.exp + 1, level: skillName.level })
+		}
+	}
+
+	const prospectStone = () => {
+		if (stone > 0){
+			levelSkill(prospecting, setProspecting)
+			setStone(stone - 1)
+			if (randomNumber(1, 3) === 1){
+				return
+			}
+			if (randomNumber(1, 3) === 2){
+				setSapphire(sapphire + 1)
+			}
+			if (randomNumber(1, 3) === 3){
+				setRuby(ruby + 1)
+			}
 		}
 	}
 
@@ -142,8 +169,11 @@ const App = () => {
 		if (makePlank.exp === 9 && tools.some(e => e.name !== 'fishingRod')) {
 			addTool('fishingRod', FishingRod)
 		}
-		if (quarrying.exp === 19 && tools.some(e => e.name !== 'lighter')) {
+		if (fishing.exp === 9 && tools.some(e => e.name !== 'lighter')) {
 			addTool('lighter', Lighter)
+		}
+		if (quarrying.exp === 19 && tools.some(e => e.name !== 'chisel')) {
+			addTool('chisel', Chisel)
 		}
 	})
 
@@ -157,6 +187,8 @@ const App = () => {
 				{tools.some(e => e.name === 'lighter') && <Timer makeSeconds={makeSeconds} decreaseSeconds={decreaseSeconds} decreaseMinutes={decreaseMinutes} image={Campfire} seconds={seconds} minutes={minutes} />}
 				{tools.some(e => e.name === 'fishingRod') && <Inventory image={Fish} item={fish} />}
 				{tools.some(e => e.name === 'lighter') && <Inventory image={CookedFish} item={cookedFish} />}
+				{tools.some(e => e.name === 'chisel') && <Inventory image={Sapphire} item={sapphire} />}
+				{tools.some(e => e.name === 'chisel') && <Inventory image={Ruby} item={ruby} />}
 			</div>
 			<div style={{ display: 'flex' }}>
 				<div className="toolbelt">
@@ -170,6 +202,7 @@ const App = () => {
 				<div className="refine">
 					{tools.some(e => e.name === 'saw') && <Skill takeAction={refineWood} skill={makePlank} skillName={"Wood Refining"} skillAction={"Refine Wood"} />}
 					{tools.some(e => e.name === 'lighter') && <Skill takeAction={cookFish} skill={cooking} skillName={"Cooking"} skillAction={"Cook Fish"} />}
+					{tools.some(e => e.name === 'chisel') && <Skill takeAction={prospectStone} skill={prospecting} skillName={"Prospecting"} skillAction={"Prospect Stone"} />}
 				</div>
 				<div className="craft">
 					{tools.some(e => e.name === 'lighter') && <Skill takeAction={craftCampfire} skill={makeCampfire} skillName={"Campfire Crafting"} skillAction={"Craft Campfire"} />}
