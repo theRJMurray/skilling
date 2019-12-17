@@ -61,6 +61,8 @@ const App = () => {
 	const [ruby, setRuby] = useState(0)
 	const [prospecting, setProspecting] = useState(baseStats)
 
+	const [toolMaking, setToolMaking] = useState(baseStats)
+
 	const [tools, setTools] = useState(starterKit)
 	//End of State Variables
 
@@ -83,7 +85,7 @@ const App = () => {
 	}
 
 	//Gameplay
-	const levelMarks = [4, 12, 24, 48, 75, 125, 175, 225, 300, 375, 500]
+	const levelMarks = [1, 2, 4, 8, 12, 18, 24, 36, 48, 60, 75, 100, 125, 150, 175, 200, 225, 260, 300, 340, 375, 425, 500]
 
 	const levelSkill = (skillName, skillSetter) => {
 		if (levelMarks.includes(skillName.exp + 1)) {
@@ -91,6 +93,14 @@ const App = () => {
 			setTotalLevel(totalLevel + 1)
 		} else {
 			skillSetter({ exp: skillName.exp + 1, level: skillName.level })
+		}
+	}
+
+	const makeTool = () => {
+		if (stone > 1 && plank > 1) {
+			levelSkill(toolMaking, setToolMaking)
+			setStone(stone - 2)
+			setPlank(plank - 2)
 		}
 	}
 
@@ -166,13 +176,13 @@ const App = () => {
 		if (quarrying.exp === 9 && tools.some(e => e.name !== 'saw')) {
 			addTool('saw', Saw)
 		}
-		if (makePlank.exp === 9 && tools.some(e => e.name !== 'fishingRod')) {
+		if (toolMaking.exp === 1 && tools.some(e => e.name !== 'fishingRod')) {
 			addTool('fishingRod', FishingRod)
 		}
-		if (fishing.exp === 9 && tools.some(e => e.name !== 'lighter')) {
+		if (toolMaking.exp === 4 && tools.some(e => e.name !== 'lighter')) {
 			addTool('lighter', Lighter)
 		}
-		if (quarrying.exp === 19 && tools.some(e => e.name !== 'chisel')) {
+		if (toolMaking.exp === 9 && tools.some(e => e.name !== 'chisel')) {
 			addTool('chisel', Chisel)
 		}
 	})
@@ -205,6 +215,7 @@ const App = () => {
 					{tools.some(e => e.name === 'chisel') && <Skill takeAction={prospectStone} skill={prospecting} skillName={"Prospecting"} skillAction={"Prospect Stone"} />}
 				</div>
 				<div className="craft">
+					{tools.some(e => e.name === 'saw') && <Skill takeAction={makeTool} skill={toolMaking} skillName={"Tool Making"} skillAction={"Craft Tools"} />}
 					{tools.some(e => e.name === 'lighter') && <Skill takeAction={craftCampfire} skill={makeCampfire} skillName={"Campfire Crafting"} skillAction={"Craft Campfire"} />}
 				</div>
 			</div>
