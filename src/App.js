@@ -192,10 +192,10 @@ const App = () => {
 		if (toolMaking.exp === 1 && tools.some(e => e.name !== 'fishingRod')) {
 			addTool('fishingRod', FishingRod)
 		}
-		if (toolMaking.exp === 4 && tools.some(e => e.name !== 'lighter')) {
+		if (toolMaking.exp === 9 && tools.some(e => e.name !== 'lighter')) {
 			addTool('lighter', Lighter)
 		}
-		if (toolMaking.exp === 9 && tools.some(e => e.name !== 'chisel')) {
+		if (toolMaking.exp === 19 && tools.some(e => e.name !== 'chisel')) {
 			addTool('chisel', Chisel)
 		}
 	})
