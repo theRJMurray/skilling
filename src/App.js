@@ -94,7 +94,7 @@ const App = () => {
 		return Math.floor(Math.sqrt(exp)*1.2);
 	}
 
-	const updateLevel = (skillString, skillName, skillSetter, exp) => {
+	const updateLevel = (skillName, skillSetter, exp) => {
 		exp = isNaN(exp) ? 0 : exp
 		const level = levelFormula(exp)
 		skillSetter({ exp: exp, level: level })
@@ -103,9 +103,9 @@ const App = () => {
 		setTotalLevel(allSkills.reduce((a, b) => a + b.level, 0))
 	}
 
-	const gainXp = (skillString, skillName, skillSetter) => {
+	const gainXp = (skillName, skillSetter) => {
 		const exp = skillName.exp + 1
-		updateLevel(skillString, skillName, skillSetter, exp)
+		updateLevel(skillName, skillSetter, exp)
 	}
 
 	const sacrificeFish = () => {
@@ -113,7 +113,7 @@ const App = () => {
 			if (minutes === 0 && seconds === 0) {
 				return;
 			} else {
-				gainXp("sacrifice", sacrifice, setSacrifice)
+				gainXp(sacrifice, setSacrifice)
 				setCookedFish(cookedFish - 1)
 			}
 		}
@@ -121,7 +121,7 @@ const App = () => {
 
 	const makeTool = () => {
 		if (stone > 1 && plank > 1) {
-			gainXp("tool", toolMaking, setToolMaking)
+			gainXp(toolMaking, setToolMaking)
 			setStone(stone - 2)
 			setPlank(plank - 2)
 		}
@@ -129,7 +129,7 @@ const App = () => {
 
 	const prospectStone = () => {
 		if (stone > 0){
-			gainXp("prospect", prospecting, setProspecting)
+			gainXp(prospecting, setProspecting)
 			setStone(stone - 1)
 			if (randomNumber(1, 3) === 1){
 				return
@@ -144,19 +144,19 @@ const App = () => {
 	}
 
 	const collectStone = () => {
-		gainXp("stone", quarrying, setQuarrying)
+		gainXp(quarrying, setQuarrying)
 		sacrifice.level >= 10 ? setStone(stone + 2) : setStone(stone + 1)
 	}
 
 	const chopWood = () => {
 		//Gain Exp
-		gainXp("wood", woodcutting, setWoodcutting)
+		gainXp(woodcutting, setWoodcutting)
 		sacrifice.level >= 5 ? setWood(wood + 2) : setWood(wood + 1)
 	}
 
 	const refineWood = () => {
 		if (wood >= 2) {
-			gainXp("plank", makePlank, setMakePlank)
+			gainXp(makePlank, setMakePlank)
 			setWood(wood - 2)
 			setPlank(plank + 1)
 		}
@@ -164,14 +164,14 @@ const App = () => {
 
 	const craftCampfire = () => {
 		if (wood >= 3) {
-			gainXp("fire", makeCampfire, setMakeCampfire)
+			gainXp(makeCampfire, setMakeCampfire)
 			setWood(wood - 3)
 			setMinutes(minutes + 1)
 		}
 	}
 
 	const catchFish = () => {
-		gainXp("fish", fishing, setFishing)
+		gainXp(fishing, setFishing)
 		sacrifice.level >= 15 ? setFish(fish + 2) : setFish(fish + 1);
 	}
 
@@ -180,7 +180,7 @@ const App = () => {
 			if (minutes === 0 && seconds === 0) {
 				return;
 			} else {
-				gainXp("cook", cooking, setCooking)
+				gainXp(cooking, setCooking)
 				setCookedFish(cookedFish + 1)
 				setFish(fish - 1)
 			}
@@ -196,15 +196,15 @@ const App = () => {
       .then(res => res.json())
       .then(
         (result) => {
-					updateLevel("wood", woodcutting, setWoodcutting, result.woodXp)
-					updateLevel("stone", quarrying, setQuarrying, result.stoneXp)
-					updateLevel("fish", fishing, setFishing, result.fishingXp)
-					updateLevel("plank", makePlank, setMakePlank, result.plankXp)
-					updateLevel("fire", makeCampfire, setMakeCampfire, result.fireXp)
-					updateLevel("cook", cooking, setCooking, result.cookXp)
-					updateLevel("prospect", prospecting, setProspecting, result.prospectXp)
-					updateLevel("tool", toolMaking, setToolMaking, result.toolXp)
-					updateLevel("sacrifice", sacrifice, setSacrifice, result.sacrificeXp)
+					updateLevel(woodcutting, setWoodcutting, result.woodXp)
+					updateLevel(quarrying, setQuarrying, result.stoneXp)
+					updateLevel(fishing, setFishing, result.fishingXp)
+					updateLevel(makePlank, setMakePlank, result.plankXp)
+					updateLevel(makeCampfire, setMakeCampfire, result.fireXp)
+					updateLevel(cooking, setCooking, result.cookXp)
+					updateLevel(prospecting, setProspecting, result.prospectXp)
+					updateLevel(toolMaking, setToolMaking, result.toolXp)
+					updateLevel(sacrifice, setSacrifice, result.sacrificeXp)
         },
         (error) => {
           this.setState({
