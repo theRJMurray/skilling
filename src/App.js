@@ -68,6 +68,9 @@ const App = () => {
 	const [tools, setTools] = useState(starterKit)
 	//End of State Variables
 
+	const allSkills = [woodcutting, makePlank, makeCampfire, fishing, cooking,
+										quarrying, prospecting, sacrifice, toolMaking]
+
 	//Timer Functions
 	const decreaseSeconds = z => {
 		setSeconds(seconds - z)
@@ -87,15 +90,22 @@ const App = () => {
 	}
 
 	//Gameplay
-	const levelMarks = [1, 2, 4, 8, 12, 18, 24, 36, 48, 60, 75, 100, 125, 150, 175, 200, 225, 260, 300, 340, 375, 425, 500]
+	const levelFormula = (exp) => {
+		return Math.floor(Math.sqrt(exp)*1.2);
+	}
 
-	const levelSkill = (skillName, skillSetter) => {
-		if (levelMarks.includes(skillName.exp + 1)) {
-			skillSetter({ exp: skillName.exp + 1, level: skillName.level + 1 })
-			setTotalLevel(totalLevel + 1)
-		} else {
-			skillSetter({ exp: skillName.exp + 1, level: skillName.level })
-		}
+	const updateLevel = (skillName, skillSetter, exp) => {
+		exp = isNaN(exp) ? 0 : exp
+		const level = levelFormula(exp)
+		skillSetter({ exp: exp, level: level })
+	}
+	const updateTotalLevel = () => {
+		setTotalLevel(allSkills.reduce((a, b) => a + b.level, 0))
+	}
+
+	const gainXp = (skillName, skillSetter) => {
+		const exp = skillName.exp + 1
+		updateLevel(skillName, skillSetter, exp)
 	}
 
 	const sacrificeFish = () => {
@@ -103,15 +113,15 @@ const App = () => {
 			if (minutes === 0 && seconds === 0) {
 				return;
 			} else {
-				levelSkill(sacrifice, setSacrifice)
+				gainXp(sacrifice, setSacrifice)
 				setCookedFish(cookedFish - 1)
 			}
 		}
 	}
-	
+
 	const makeTool = () => {
 		if (stone > 1 && plank > 1) {
-			levelSkill(toolMaking, setToolMaking)
+			gainXp(toolMaking, setToolMaking)
 			setStone(stone - 2)
 			setPlank(plank - 2)
 		}
@@ -119,7 +129,7 @@ const App = () => {
 
 	const prospectStone = () => {
 		if (stone > 0){
-			levelSkill(prospecting, setProspecting)
+			gainXp(prospecting, setProspecting)
 			setStone(stone - 1)
 			if (randomNumber(1, 3) === 1){
 				return
@@ -134,19 +144,19 @@ const App = () => {
 	}
 
 	const collectStone = () => {
-		levelSkill(quarrying, setQuarrying)
+		gainXp(quarrying, setQuarrying)
 		sacrifice.level >= 10 ? setStone(stone + 2) : setStone(stone + 1)
 	}
 
 	const chopWood = () => {
 		//Gain Exp
-		levelSkill(woodcutting, setWoodcutting)
+		gainXp(woodcutting, setWoodcutting)
 		sacrifice.level >= 5 ? setWood(wood + 2) : setWood(wood + 1)
 	}
 
 	const refineWood = () => {
 		if (wood >= 2) {
-			levelSkill(makePlank, setMakePlank)
+			gainXp(makePlank, setMakePlank)
 			setWood(wood - 2)
 			setPlank(plank + 1)
 		}
@@ -154,14 +164,14 @@ const App = () => {
 
 	const craftCampfire = () => {
 		if (wood >= 3) {
-			levelSkill(makeCampfire, setMakeCampfire)
+			gainXp(makeCampfire, setMakeCampfire)
 			setWood(wood - 3)
 			setMinutes(minutes + 1)
 		}
 	}
 
 	const catchFish = () => {
-		levelSkill(fishing, setFishing)
+		gainXp(fishing, setFishing)
 		sacrifice.level >= 15 ? setFish(fish + 2) : setFish(fish + 1);
 	}
 
@@ -170,7 +180,7 @@ const App = () => {
 			if (minutes === 0 && seconds === 0) {
 				return;
 			} else {
-				levelSkill(cooking, setCooking)
+				gainXp(cooking, setCooking)
 				setCookedFish(cookedFish + 1)
 				setFish(fish - 1)
 			}
@@ -181,23 +191,63 @@ const App = () => {
 		tools.push({name: name, icon: icon})
 	}
 
+	const login = () => {
+		fetch("https://skilling-59c90.firebaseio.com/anthony.json")
+      .then(res => res.json())
+      .then(
+        (result) => {
+					updateLevel(woodcutting, setWoodcutting, result.woodXp)
+					updateLevel(quarrying, setQuarrying, result.stoneXp)
+					updateLevel(fishing, setFishing, result.fishingXp)
+					updateLevel(makePlank, setMakePlank, result.plankXp)
+					updateLevel(makeCampfire, setMakeCampfire, result.fireXp)
+					updateLevel(cooking, setCooking, result.cookXp)
+					updateLevel(prospecting, setProspecting, result.prospectXp)
+					updateLevel(toolMaking, setToolMaking, result.toolXp)
+					updateLevel(sacrifice, setSacrifice, result.sacrificeXp)
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+	}
+	const save = () => {
+		const userData = {woodXp: woodcutting.exp,
+											stoneXp: quarrying.exp,
+											fishingXp: fishing.exp,
+											plankXp: makePlank.exp,
+											fireXp: makeCampfire.exp,
+											cookXp: cooking.exp,
+											prospectXp: prospecting.exp,
+											toolXp: toolMaking.exp,
+											sacrificeXp: sacrifice.exp}
+		const response = fetch("https://skilling-59c90.firebaseio.com/anthony.json", {
+	    method: 'PUT',
+	    body: JSON.stringify(userData)
+	  });
+	}
+
 	useEffect(() => {
 		//Unlock Tool: Saw
-		if (woodcutting.exp === 9 && tools.some(e => e.name !== 'hammer')) {
+		if (woodcutting.exp > 8 && !(tools.some(e => e.name === 'hammer'))) {
 			addTool('hammer', Hammer)
 		}
-		if (quarrying.exp === 9 && tools.some(e => e.name !== 'saw')) {
+		if (quarrying.exp > 8 && !(tools.some(e => e.name === 'saw'))) {
 			addTool('saw', Saw)
 		}
-		if (toolMaking.exp === 1 && tools.some(e => e.name !== 'fishingRod')) {
+		if (toolMaking.exp > 0 && !(tools.some(e => e.name === 'fishingRod'))) {
 			addTool('fishingRod', FishingRod)
 		}
-		if (toolMaking.exp === 9 && tools.some(e => e.name !== 'lighter')) {
+		if (toolMaking.exp > 8 && !(tools.some(e => e.name === 'lighter'))) {
 			addTool('lighter', Lighter)
 		}
-		if (toolMaking.exp === 19 && tools.some(e => e.name !== 'chisel')) {
+		if (toolMaking.exp > 18 && !(tools.some(e => e.name === 'chisel'))) {
 			addTool('chisel', Chisel)
 		}
+		updateTotalLevel()
 	})
 
 	return (
@@ -232,6 +282,11 @@ const App = () => {
 					{tools.some(e => e.name === 'lighter') && <Skill takeAction={craftCampfire} skill={makeCampfire} skillName={"Campfire Crafting"} skillAction={"Craft Campfire"} />}
 					{tools.some(e => e.name === 'lighter') && <Skill takeAction={sacrificeFish} skill={sacrifice} skillName={"Sacrifice"} skillAction={"Sacrifice Fish"} />}
 				</div>
+				<div className="craft">
+					{<Skill takeAction={login} skill={toolMaking} skillName={"Load User"} skillAction={"Anthony"} />}
+					{<Skill takeAction={save} skill={makeCampfire} skillName={"Save User"} skillAction={"Anthony"} />}
+				</div>
+
 			</div>
 		</div>
 	);
