@@ -269,10 +269,10 @@ const App = () => {
   return (
     <div>
       <div className="topHeader">
+        <Inventory image={Level} item={totalLevel} />
         <Save save={save} load={login} />
       </div>
       <div className="titanPanel">
-        <Inventory image={Level} item={totalLevel} />
         <Inventory image={Logs} item={wood} />
         {tools.some(e => e.name === "hammer") && (
           <Inventory image={Stone} item={stone} />

@@ -3,7 +3,7 @@ import "../css/Save.css";
 
 const Save = props => {
   return (
-    <div style={{ display: "flex", flexDirection: "row-reverse" }}>
+    <div className="saveLoad">
       <button className="btn btn-primary" onClick={props.save}>
         Save
       </button>
