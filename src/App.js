@@ -238,7 +238,7 @@ const App = () => {
       toolXp: toolMaking.exp,
       sacrificeXp: sacrifice.exp
     };
-    const response = fetch("https://skilling-a2d7a.firebaseio.com/use.json", {
+      fetch("https://skilling-a2d7a.firebaseio.com/use.json", {
       method: "PUT",
       body: JSON.stringify(userData)
     });
