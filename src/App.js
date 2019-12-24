@@ -238,7 +238,7 @@ const App = () => {
       toolXp: toolMaking.exp,
       sacrificeXp: sacrifice.exp
     };
-    const response = fetch("https://skilling-a2d7a.firebaseio.com/use.json", {
+      fetch("https://skilling-a2d7a.firebaseio.com/use.json", {
       method: "PUT",
       body: JSON.stringify(userData)
     });
@@ -269,10 +269,10 @@ const App = () => {
   return (
     <div>
       <div className="topHeader">
+        <Inventory image={Level} item={totalLevel} />
         <Save save={save} load={login} />
       </div>
       <div className="titanPanel">
-        <Inventory image={Level} item={totalLevel} />
         <Inventory image={Logs} item={wood} />
         {tools.some(e => e.name === "hammer") && (
           <Inventory image={Stone} item={stone} />

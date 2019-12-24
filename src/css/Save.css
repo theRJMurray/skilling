@@ -1,3 +1,10 @@
+.saveLoad {
+  display: flex;
+  flex-direction: row-reverse;
+  align-self: flex-end;
+  flex-grow: 1;
+}
+
 button {
     margin: 10px;
   }
