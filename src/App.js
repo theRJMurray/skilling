@@ -26,43 +26,35 @@ import "./css/App.css";
 
 const App = () => {
   //State Variables
-  const baseStats = {
-    exp: 0,
-    level: 0
-  };
+  const [user, setUser] = useState(null);
+  const [nameValue, setNameValue] = useState("");
 
   const starterKit = [{ name: "axe", icon: WoodAxe }];
+  const [tools, setTools] = useState(starterKit);
+
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
 
   const [totalLevel, setTotalLevel] = useState(0);
 
   const [wood, setWood] = useState(0);
-  const [woodcutting, setWoodcutting] = useState(baseStats);
-
   const [plank, setPlank] = useState(0);
-  const [makePlank, setMakePlank] = useState(baseStats);
-
-  const [makeCampfire, setMakeCampfire] = useState(baseStats);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-
   const [fish, setFish] = useState(0);
-  const [fishing, setFishing] = useState(baseStats);
-
   const [cookedFish, setCookedFish] = useState(0);
-  const [cooking, setCooking] = useState(baseStats);
-
   const [stone, setStone] = useState(0);
-  const [quarrying, setQuarrying] = useState(baseStats);
-
   const [sapphire, setSapphire] = useState(0);
   const [ruby, setRuby] = useState(0);
+
+  const baseStats = { exp: 0, level: 0 };
+  const [woodcutting, setWoodcutting] = useState(baseStats);
+  const [makePlank, setMakePlank] = useState(baseStats);
+  const [makeCampfire, setMakeCampfire] = useState(baseStats);
+  const [fishing, setFishing] = useState(baseStats);
+  const [cooking, setCooking] = useState(baseStats);
+  const [quarrying, setQuarrying] = useState(baseStats);
   const [prospecting, setProspecting] = useState(baseStats);
-
   const [sacrifice, setSacrifice] = useState(baseStats);
-
   const [toolMaking, setToolMaking] = useState(baseStats);
-
-  const [tools, setTools] = useState(starterKit);
   //End of State Variables
 
   const allSkills = [
@@ -76,6 +68,20 @@ const App = () => {
     sacrifice,
     toolMaking
   ];
+
+  //Login Functions
+  const userLogin = e => {
+    setUser(nameValue);
+    e.preventDefault();
+  };
+
+  const userLogout = () => {
+    setUser(null);
+  };
+
+  const handleChange = e => {
+    setNameValue(e.target.value);
+  };
 
   //Timer Functions
   const decreaseSeconds = z => {
@@ -198,32 +204,53 @@ const App = () => {
   };
 
   const login = () => {
-    fetch("https://skilling-a2d7a.firebaseio.com/use.json")
-      .then(res => res.json())
-      .then(
-        result => {
-          updateLevel("wood", woodcutting, setWoodcutting, result.woodXp);
-          updateLevel("stone", quarrying, setQuarrying, result.stoneXp);
-          updateLevel("fish", fishing, setFishing, result.fishingXp);
-          updateLevel("plank", makePlank, setMakePlank, result.plankXp);
-          updateLevel("fire", makeCampfire, setMakeCampfire, result.fireXp);
-          updateLevel("cook", cooking, setCooking, result.cookXp);
-          updateLevel(
-            "prospect",
-            prospecting,
-            setProspecting,
-            result.prospectXp
-          );
-          updateLevel("tool", toolMaking, setToolMaking, result.toolXp);
-          updateLevel("sacrifice", sacrifice, setSacrifice, result.sacrificeXp);
-        },
-        error => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      );
+    if (user === null) {
+      return;
+    } else {
+      fetch(`https://skilling-a2d7a.firebaseio.com/${user}.json`)
+        .then(res => res.json())
+        .then(
+          result => {
+            updateLevel("wood", woodcutting, setWoodcutting, result.woodXp);
+            updateLevel("stone", quarrying, setQuarrying, result.stoneXp);
+            updateLevel("fish", fishing, setFishing, result.fishingXp);
+            updateLevel("plank", makePlank, setMakePlank, result.plankXp);
+            updateLevel("fire", makeCampfire, setMakeCampfire, result.fireXp);
+            updateLevel("cook", cooking, setCooking, result.cookXp);
+            updateLevel(
+              "prospect",
+              prospecting,
+              setProspecting,
+              result.prospectXp
+            );
+            updateLevel("tool", toolMaking, setToolMaking, result.toolXp);
+            updateLevel(
+              "sacrifice",
+              sacrifice,
+              setSacrifice,
+              result.sacrificeXp
+            );
+            setWood(result.wood);
+            setPlank(result.plank);
+            setFish(result.fish);
+            setCookedFish(result.cookedFish);
+            setStone(result.stone);
+            setSapphire(result.sapphire);
+            setRuby(result.ruby);
+            setSeconds(result.seconds);
+            setMinutes(result.minutes);
+          },
+          error => {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
+        )
+        .catch(() => {
+          save();
+        });
+    }
   };
 
   const save = () => {
@@ -236,12 +263,25 @@ const App = () => {
       cookXp: cooking.exp,
       prospectXp: prospecting.exp,
       toolXp: toolMaking.exp,
-      sacrificeXp: sacrifice.exp
+      sacrificeXp: sacrifice.exp,
+      wood: wood,
+      plank: plank,
+      fish: fish,
+      cookedFish: cookedFish,
+      stone: stone,
+      sapphire: sapphire,
+      ruby: ruby,
+      seconds: seconds,
+      minutes: minutes
     };
-      fetch("https://skilling-a2d7a.firebaseio.com/use.json", {
-      method: "PUT",
-      body: JSON.stringify(userData)
-    });
+    if (user === null) {
+      return;
+    } else {
+      fetch(`https://skilling-a2d7a.firebaseio.com/${user}.json`, {
+        method: "PUT",
+        body: JSON.stringify(userData)
+      });
+    }
   };
 
   useEffect(() => {
@@ -270,7 +310,14 @@ const App = () => {
     <div>
       <div className="topHeader">
         <Inventory image={Level} item={totalLevel} />
-        <Save save={save} load={login} />
+        <Save
+          save={save}
+          load={login}
+          user={user}
+          userLogin={userLogin}
+          handleChange={handleChange}
+          userLogout={userLogout}
+        />
       </div>
       <div className="titanPanel">
         <Inventory image={Logs} item={wood} />
