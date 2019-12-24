@@ -209,6 +209,15 @@ const App = () => {
           );
           updateLevel("tool", toolMaking, setToolMaking, result.toolXp);
           updateLevel("sacrifice", sacrifice, setSacrifice, result.sacrificeXp);
+		  setWood(result.wood);
+		  setPlank(result.plank);
+		  setFish(result.fish);
+		  setCookedFish(result.cookedFish);
+		  setStone(result.stone);
+		  setSapphire(result.sapphire);
+		  setRuby(result.ruby);
+		  setSeconds(result.seconds);
+		  setMinutes(result.minutes);
         },
         error => {
           this.setState({
@@ -229,7 +238,16 @@ const App = () => {
       cookXp: cooking.exp,
       prospectXp: prospecting.exp,
       toolXp: toolMaking.exp,
-      sacrificeXp: sacrifice.exp
+      sacrificeXp: sacrifice.exp,
+	  wood: wood,
+	  plank: plank,
+	  fish: fish,
+	  cookedFish: cookedFish,
+	  stone: stone,
+	  sapphire: sapphire,
+	  ruby: ruby,
+	  seconds: seconds,
+	  minutes: minutes
     };
       fetch("https://skilling-a2d7a.firebaseio.com/use.json", {
       method: "PUT",
