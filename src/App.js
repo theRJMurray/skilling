@@ -371,6 +371,7 @@ const App = () => {
               skill={woodcutting}
               skillName={"Woodcutting"}
               skillAction={"Chop Wood"}
+              visibility={true}
             />
           )}
 
