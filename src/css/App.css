@@ -10,10 +10,11 @@ body {
 
 .titanPanel {
   width: 100%;
-  height: 60px;
+  height: auto;
   background: #e0dfd5;
   border: 3px solid #313638;
   display: flex;
+  flex-wrap: wrap;
   margin: 0;
   font-family: "Montserrat", sans-serif;
   user-select: none;
