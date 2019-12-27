@@ -207,7 +207,7 @@ const App = () => {
     if (user === null) {
       return;
     } else {
-      fetch(`https://skilling-a2d7a.firebaseio.com/${user}.json`)
+      fetch(`https://skilling-a2d7a.firebaseio.com/users/${user}.json`)
         .then(res => res.json())
         .then(
           result => {
@@ -277,7 +277,7 @@ const App = () => {
     if (user === null) {
       return;
     } else {
-      fetch(`https://skilling-a2d7a.firebaseio.com/${user}.json`, {
+      fetch(`https://skilling-a2d7a.firebaseio.com/users/${user}.json`, {
         method: "PUT",
         body: JSON.stringify(userData)
       });
